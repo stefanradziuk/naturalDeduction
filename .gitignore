@@ -1,3 +1,6 @@
+*.Class
+*.log
+
 .attach_pid*
 .idea/
 dist/*
