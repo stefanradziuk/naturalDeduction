@@ -9,15 +9,20 @@ case class Proof(premises: List[Formula], objective: Formula) {
   premises.foreach(steps += Premise(_))
 
   def addStep(step: Step): Unit = {
-    //todo check if the step reqs are met
-    steps += step
+    if (step.requirements forall hasShown) {
+      steps += step
+    } else {
+      throw new IllegalArgumentException(s"Invalid step $step in proof [$this]")
+    }
   }
 
-  def isComplete: Boolean = steps.map(_.result) contains objective
+  def isComplete: Boolean = hasShown(objective)
 
-  private def printableSteps: String = steps.zipWithIndex.map(_.swap).map {
-    case (i, step) => String.format("%d. %s", i + 1, step)
-   }.mkString("\n")
+  private def hasShown: Formula => Boolean = steps.map(_.result) contains _
+
+  private def printableSteps: String = steps.zipWithIndex.map {
+    case (step, i) => String.format("%d. %s", i + 1, step)
+  }.mkString("\n")
 
   override def toString: String = {
     printableSteps + (if (isComplete) "\nObjective proven!")
