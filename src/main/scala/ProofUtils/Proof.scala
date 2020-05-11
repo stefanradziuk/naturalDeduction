@@ -5,6 +5,8 @@ import Formulae.Formula
 import scala.collection.mutable.ListBuffer
 
 case class Proof(premises: List[Formula], objective: Formula) {
+  //todo figure out a way to represent boxes (nested lists, bracketing?)
+
   var steps: ListBuffer[Step] = ListBuffer()
   premises.foreach(steps += Premise(_))
 
@@ -12,6 +14,7 @@ case class Proof(premises: List[Formula], objective: Formula) {
     if (step.requirements forall hasShown) {
       steps += step
     } else {
+      //todo come up with functional error handling
       throw new IllegalArgumentException(s"Invalid step $step in proof [$this]")
     }
   }
