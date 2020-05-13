@@ -4,19 +4,25 @@ import Formulae.Formula
 
 import scala.collection.mutable.ListBuffer
 
-case class Proof(premises: List[Formula], objective: Formula) extends ProofTrait {
-  //todo make proofs immutable? (addStep: Proof)
+trait Proof {
 
-  override var steps: ListBuffer[Step] = ListBuffer()
-  premises.foreach(steps += Premise(_))
+  val premises: List[Formula]
+  val objective: Formula
 
-  override def alreadyProven(formula: Formula): Boolean = steps.map(_.result) contains formula
+  protected var steps: ListBuffer[Step]
 
-  override def toString: String = {
-    premises.mkString(", ") + s" ⊢ $objective\n" + stepsPrintable + (if (isComplete) "\nObjective proven!")
+  def addStep(step: Step): Unit = {
+    if (step.requirements forall alreadyProven) {
+      steps += step
+    } else {
+      //todo come up with functional error handling
+      throw new IllegalArgumentException(s"Invalid step $step in proof [$this]")
+    }
   }
 
-  override def stepsPrintable: String = steps.zipWithIndex.map {
-    case (step, i) => String.format("%d. %s", i + 1, step)
-  }.mkString("\n")
+  def isComplete: Boolean = alreadyProven(objective)
+
+  def alreadyProven(formula: Formula): Boolean
+
+  protected def stepsPrintable: String
 }

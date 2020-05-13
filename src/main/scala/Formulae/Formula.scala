@@ -1,5 +1,9 @@
 package Formulae
 
-abstract class Formula {
+trait Formula {
   def getAtoms: Set[Atom]
+
+  def stringRepresentation: String
+
+  override def toString: String = stringRepresentation
 }

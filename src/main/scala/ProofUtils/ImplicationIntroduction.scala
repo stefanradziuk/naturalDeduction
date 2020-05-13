@@ -4,9 +4,10 @@ import Formulae.{Formula, Implication}
 
 import scala.collection.mutable.ListBuffer
 
-case class ImplicationIntroduction(parentProof: ProofTrait
+case class ImplicationIntroduction(parentProof: Proof
                                    , assumption: Formula
-                                   , objective: Formula) extends ProofTrait with Step {
+                                   , objective: Formula) extends BoxStep {
+  //assumption takes on the role of an antecedent, objective is the consequent
   //todo abstract out the box functionality?
 
   override val premises: List[Formula] = List(assumption)
@@ -16,13 +17,7 @@ case class ImplicationIntroduction(parentProof: ProofTrait
 
   override def requirements: Set[Formula] = Set.empty
 
-  override def result: Formula = Implication(assumption, objective)
-
-  override def stepsPrintable: String = {
-    steps.zipWithIndex.map {
-      case (step, i) => String.format("%d. %s", i + 1, step)
-    }.mkString("\n┌────────────────┐\n", "\n", "\n└────────────────┘\n")
-  }
+  override def result: Formula = Implication(antecedent = assumption, consequent = objective)
 
   override def toString: String = stepsPrintable + result + "\t" + symbol
 
