@@ -27,7 +27,7 @@ object SimpleClient {
 
     /*
         println("\n----------")
-        
+
         println("Attempting illegal proof")
         val illegalProof1: Proof = Proof(List(p, q), Conjunction(Negation(p), q))
         illegalProof1.addStep(ConjunctionIntroduction(Negation(p), q))
