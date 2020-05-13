@@ -1,2 +1,2 @@
 # naturalDeduction
-Scala tool for representation and verification of natural deduction proofs
+\[WIP\] Scala tool for representation and verification of natural deduction proofs
