@@ -2,7 +2,7 @@ package ProofUtils
 import Formulae.Formula
 
 case class Premise(formula: Formula) extends Step {
-  override val symbol: String = "Premise"
+  override val symbol: String = "premise"
 
   override def requirements: Set[Formula] = Set.empty
 

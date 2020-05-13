@@ -1,5 +1,5 @@
 import Formulae._
-import ProofUtils._
+import ProofUtils.{LeftOrRight, _}
 
 object SimpleClient {
   def main(args: Array[String]): Unit = {
@@ -54,5 +54,26 @@ object SimpleClient {
     val bottomProof2: TopLevelProof = TopLevelProof(List(Bottom), p)
     bottomProof2.addStep(BottomElimination(p))
     println(bottomProof2)
+
+    println("\n----------\n")
+
+    val negationProof: TopLevelProof = TopLevelProof(List(Implication(p, Bottom)), Negation(p))
+    val negationBoxStep = NegationIntroduction(negationProof, p)
+    negationBoxStep.addStep(ImplicationElimination(p, Bottom))
+    negationProof.addStep(negationBoxStep)
+    println(negationProof)
+
+    println("\n----------\n")
+
+    val r: Atom = Atom("r")
+
+    val implicationProof: TopLevelProof = TopLevelProof(List(Implication(p, Implication(q, r))), Implication(Conjunction(p, q), r))
+    val implicationBox = ImplicationIntroduction(implicationProof, Conjunction(p, q), r)
+    implicationBox.addStep(ConjunctionElimination(p, q, LeftOrRight.Left))
+    implicationBox.addStep(ImplicationElimination(p, Implication(q, r)))
+    implicationBox.addStep(ConjunctionElimination(p, q, LeftOrRight.Right))
+    implicationBox.addStep(ImplicationElimination(q, r))
+    implicationProof.addStep(implicationBox)
+    println(implicationProof)
   }
 }
