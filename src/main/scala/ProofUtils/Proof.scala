@@ -9,13 +9,13 @@ case class Proof(premises: List[Formula], objective: Formula) extends ProofTrait
   //todo refer to steps by their index
 
   override var steps: ListBuffer[Step] = ListBuffer()
-  premises.foreach(steps += Premise(_))
+  private var header: String = premises.mkString(", ") + s" ⊢ $objective\n"
+  premises foreach (steps += Premise(_))
 
   override def alreadyProven(formula: Formula): Boolean = steps.map(_.result) contains formula
 
   override def toString: String = {
-    premises.mkString(", ") + s" ⊢ $objective\n" + stepsPrintable +
-      (if (isComplete) "\nObjective proven!" else "\nObjective not yet proven")
+    header + stepsPrintable + (if (isComplete) "\nObjective proven!" else "\nObjective not yet proven")
   }
 
   override def stepsPrintable: String = steps.zipWithIndex.map {

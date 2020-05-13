@@ -7,7 +7,7 @@ import scala.collection.mutable.ListBuffer
 case class NegationIntroduction(override val parentProof: ProofTrait
                                 , override val assumption: Formula) extends BoxProof {
   override val objective: Formula = Bottom
-  override var steps: ListBuffer[Step] = ListBuffer(Premise(assumption))
+  override var steps: ListBuffer[Step] = ListBuffer(Assumption(assumption))
 
   override def requirements: Set[Formula] = Set.empty
 

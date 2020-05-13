@@ -9,7 +9,7 @@ case class ImplicationIntroduction(override val parentProof: ProofTrait
                                    , override val objective: Formula) extends BoxProof {
   //assumption takes on the role of an antecedent, objective is the consequent
 
-  override var steps: ListBuffer[Step] = ListBuffer(Premise(assumption))
+  override var steps: ListBuffer[Step] = ListBuffer(Assumption(assumption))
   override val symbol: String = "→I"
 
   override def requirements: Set[Formula] = Set.empty
