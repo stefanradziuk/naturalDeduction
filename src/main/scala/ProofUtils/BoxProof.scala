@@ -4,10 +4,10 @@ import Formulae.{Formula, Implication, Top}
 
 import scala.collection.mutable.ListBuffer
 
-trait BoxStep extends Proof with Step {
+trait BoxProof extends ProofTrait with Step {
   val assumption: Formula
   val objective: Formula
-  val parentProof: Proof
+  val parentProof: ProofTrait
   override val premises: List[Formula] = List(assumption)
   override var steps: ListBuffer[Step]
 

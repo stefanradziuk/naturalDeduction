@@ -15,13 +15,13 @@ object SimpleClient {
     // checking proof functionality
     println("\n----------\n")
 
-    val proof1: TopLevelProof = TopLevelProof(List(p, q), Conjunction(p, q))
+    val proof1: Proof = Proof(List(p, q), Conjunction(p, q))
     proof1.addStep(ConjunctionIntroduction(p, q))
     println(proof1)
 
     println("\n----------\n")
 
-    val proof2: TopLevelProof = TopLevelProof(List(Conjunction(p, q)), p)
+    val proof2: Proof = Proof(List(Conjunction(p, q)), p)
     proof2.addStep(ConjunctionElimination(p, q, LeftOrRight.Left))
     println(proof2)
 
@@ -36,7 +36,7 @@ object SimpleClient {
 
     println("\n----------\n")
 
-    val boxProof: TopLevelProof = TopLevelProof(List.empty, Implication(p, p))
+    val boxProof: Proof = Proof(List.empty, Implication(p, p))
     val boxStep: ImplicationIntroduction = ImplicationIntroduction(boxProof, p, p)
     //note: the tick is not necessary
     boxStep.addStep(Tick(p))
@@ -45,19 +45,19 @@ object SimpleClient {
 
     println("\n----------\n")
 
-    val bottomProof: TopLevelProof = TopLevelProof(List(p, Negation(p)), Bottom)
+    val bottomProof: Proof = Proof(List(p, Negation(p)), Bottom)
     bottomProof.addStep(BottomIntroduction(p))
     println(bottomProof)
 
     println("\n----------\n")
 
-    val bottomProof2: TopLevelProof = TopLevelProof(List(Bottom), p)
+    val bottomProof2: Proof = Proof(List(Bottom), p)
     bottomProof2.addStep(BottomElimination(p))
     println(bottomProof2)
 
     println("\n----------\n")
 
-    val negationProof: TopLevelProof = TopLevelProof(List(Implication(p, Bottom)), Negation(p))
+    val negationProof: Proof = Proof(List(Implication(p, Bottom)), Negation(p))
     val negationBoxStep = NegationIntroduction(negationProof, p)
     negationBoxStep.addStep(ImplicationElimination(p, Bottom))
     negationProof.addStep(negationBoxStep)
@@ -67,7 +67,7 @@ object SimpleClient {
 
     val r: Atom = Atom("r")
 
-    val implicationProof: TopLevelProof = TopLevelProof(List(Implication(p, Implication(q, r))), Implication(Conjunction(p, q), r))
+    val implicationProof: Proof = Proof(List(Implication(p, Implication(q, r))), Implication(Conjunction(p, q), r))
     val implicationBox = ImplicationIntroduction(implicationProof, Conjunction(p, q), r)
     implicationBox.addStep(ConjunctionElimination(p, q, LeftOrRight.Left))
     implicationBox.addStep(ImplicationElimination(p, Implication(q, r)))
